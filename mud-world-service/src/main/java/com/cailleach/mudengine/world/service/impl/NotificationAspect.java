@@ -38,7 +38,7 @@ public class NotificationAspect {
 	 * @param pjp - object that holds the actual call.  Only after this call succeeded we send the notifications
 	 * @param afterPlace - future state of the place being altered
 	 */
-	@Around(value = "execution(public * com.jpinfo.mudengine.world.repository.PlaceRepository+.save(..)) && args(afterPlace)")
+	@Around(value = "execution(public * com.cailleach.mudengine.world.repository.PlaceRepository+.save(..)) && args(afterPlace)")
 	public Object comparePlaces(ProceedingJoinPoint pjp, PlaceEntity afterPlace) throws Throwable {
 
 		// Object returned after save operation

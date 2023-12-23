@@ -2,7 +2,27 @@ spring:
   application:
     name: mud-world
     
-  jpa: 
-    hibernate:
-      ddl-auto: none
-
+  datasource:
+    url: jdbc:mysql://localhost:3306/customer
+    username: simulator
+    password: simulator
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - metrics
+          - prometheus
+    enabled-by-default: true
+  endpoint:
+    health:
+      show-details: always
+      status:
+        http-mapping:
+          UP: 200
+          UNKNOWN: 200
+          DOWN: 503
+          '[OUT_OF_SERVICE]': 503

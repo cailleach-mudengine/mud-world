@@ -15,16 +15,17 @@
 	</parent>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>17</java.version>
-		<spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+		<spring-cloud.version>2023.0.0</spring-cloud.version>
 		<build-version>-1</build-version>
-   		<maven.compiler.source>17</maven.compiler.source>
-   		<maven.compiler.target>17</maven.compiler.target>		
+		<build-tag>-1</build-tag>		
 	</properties>
 
 	<dependencies>
+		
+		 <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-web</artifactId>
+	    </dependency>
 		
 		<dependency>
 			<groupId>com.cailleach.mudengine</groupId>
@@ -81,6 +82,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+				</configuration>				
 				<executions>
 					<execution>
 						<goals>
