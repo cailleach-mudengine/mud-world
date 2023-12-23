@@ -1,6 +1,7 @@
 package com.cailleach.mudengine.world.service.impl;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.activemq.command.ActiveMQTopic;
@@ -12,8 +13,13 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.cailleach.mudengine.world.model.MudPlace;
-import com.cailleach.mudengine.world.model.MudPlaceExit;
+import com.cailleach.mudengine.common.security.Session;
+import com.cailleach.mudengine.common.utils.CommonConstants;
+import com.cailleach.mudengine.common.utils.NotificationMessage;
+import com.cailleach.mudengine.common.utils.NotificationMessage.EnumEntity;
+import com.cailleach.mudengine.common.utils.NotificationMessage.EnumNotificationEvent;
+import com.cailleach.mudengine.world.model.PlaceEntity;
+import com.cailleach.mudengine.world.model.PlaceExitEntity;
 import com.cailleach.mudengine.world.rest.dto.PlaceExit;
 import com.cailleach.mudengine.world.util.WorldHelper;
 
@@ -37,7 +43,7 @@ public class NotificationService {
 		placeTopic = new ActiveMQTopic(placeTopicName);
 	}
 	
-	public List<NotificationMessage> handlePlaceDestroy(MudPlace destroyedPlace) {
+	public List<NotificationMessage> handlePlaceDestroy(PlaceEntity destroyedPlace) {
 		
 		// Prepare a notification for this change
 		NotificationMessage placeNotification = NotificationMessage.builder()
@@ -61,7 +67,7 @@ public class NotificationService {
 		return List.of(placeNotification);
 	}
 	
-	public List<NotificationMessage> handlePlaceChange(MudPlace beforePlace, MudPlace afterPlace) {
+	public List<NotificationMessage> handlePlaceChange(PlaceEntity beforePlace, PlaceEntity afterPlace) {
 		
 		List<NotificationMessage> notifications = new ArrayList<>();
 		
@@ -112,7 +118,7 @@ public class NotificationService {
 	 * @param beforePlace - current state of the MudPlace object in database
 	 * @param afterPlace - future state of the MudPlace object
 	 */
-	private void checkPlaceClassChanges(MudPlace beforePlace, MudPlace afterPlace, List<NotificationMessage> notifications) {
+	private void checkPlaceClassChanges(PlaceEntity beforePlace, PlaceEntity afterPlace, List<NotificationMessage> notifications) {
 		
 		if (!beforePlace.getPlaceClass().getCode().equals(afterPlace.getPlaceClass().getCode())) {
 
@@ -146,7 +152,7 @@ public class NotificationService {
 	 * @param beforePlace - current state of the MudPlace object in database
 	 * @param afterPlace - future state of the MudPlace object
 	 */
-	private void checkNewlyCreatedExits(MudPlace beforePlace, MudPlace afterPlace, List<NotificationMessage> notifications) {
+	private void checkNewlyCreatedExits(PlaceEntity beforePlace, PlaceEntity afterPlace, List<NotificationMessage> notifications) {
 		
 		afterPlace.getExits().stream()
 			.filter(d -> !beforePlace.getExits().contains(d))
@@ -205,7 +211,7 @@ public class NotificationService {
 	 * @param beforePlace - current state of the MudPlace object in database
 	 * @param afterPlace - future state of the MudPlace object
 	 */
-	private void checkUpdatedExits(MudPlace beforePlace, MudPlace afterPlace, List<NotificationMessage> notifications) {
+	private void checkUpdatedExits(PlaceEntity beforePlace, PlaceEntity afterPlace, List<NotificationMessage> notifications) {
 
 		// Looking for exit changes
 		beforePlace.getExits().stream()
@@ -234,7 +240,7 @@ public class NotificationService {
 	 * @param beforeExit - current state of the exit.
 	 * @param afterExit - future state of the exit.
 	 */
-	private void checkOneUpdatedExit(Integer placeCode, MudPlaceExit beforeExit, MudPlaceExit afterExit, List<NotificationMessage> notifications) {
+	private void checkOneUpdatedExit(Integer placeCode, PlaceExitEntity beforeExit, PlaceExitEntity afterExit, List<NotificationMessage> notifications) {
 		
 		if (beforeExit.isOpened() && !afterExit.isOpened()) {
 
@@ -302,15 +308,13 @@ public class NotificationService {
 	
 
 	private String getWorldName() {
+
+		try {
+			Session sessionData = (Session)SecurityContextHolder.getContext().getAuthentication().getDetails();
 		
-		if (SecurityContextHolder.getContext().getAuthentication()!=null) {
-		
-			MudUserDetails uDetails = (MudUserDetails)
-					SecurityContextHolder.getContext().getAuthentication().getDetails();
-		
-			return uDetails.getSessionData().getCurWorldName();
+			return sessionData.getCurWorldName();
+		} catch(RuntimeException e) {
+			return null;
 		}
-		
-		return null;
 	}
 }

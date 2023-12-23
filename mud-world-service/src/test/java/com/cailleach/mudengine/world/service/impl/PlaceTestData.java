@@ -3,8 +3,8 @@ package com.cailleach.mudengine.world.service.impl;
 import java.io.File;
 import java.io.IOException;
 
-import com.cailleach.mudengine.world.model.MudPlace;
-import com.cailleach.mudengine.world.model.MudPlaceClass;
+import com.cailleach.mudengine.world.model.PlaceEntity;
+import com.cailleach.mudengine.world.model.PlaceClassEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PlaceTestData {
@@ -22,22 +22,22 @@ public class PlaceTestData {
 	
 	private static ObjectMapper jsonMapper = new ObjectMapper();
 	
-	public static MudPlaceClass loadMudPlaceClass(String className) throws IOException{
+	public static PlaceClassEntity loadMudPlaceClass(String className) throws IOException{
 		
 		return jsonMapper.readValue(new File(
 				PlaceTestData.MUD_PLACE_CLASS_PREFIX +
 				className + 
 				PlaceTestData.MUD_PLACE_CLASS_SUFFIX
-				), MudPlaceClass.class);
+				), PlaceClassEntity.class);
 	}
 	
-	public static MudPlace loadMudPlace(Integer placeId) throws IOException{
+	public static PlaceEntity loadMudPlace(Integer placeId) throws IOException{
 		
 		return jsonMapper.readValue(new File(
 				PlaceTestData.MUD_PLACE_PREFIX +
 				placeId + 
 				PlaceTestData.MUD_PLACE_SUFFIX
-				), MudPlace.class);
+				), PlaceEntity.class);
 	}
 
 }

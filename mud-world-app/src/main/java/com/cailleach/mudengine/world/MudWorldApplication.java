@@ -6,7 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages= {
+		"com.cailleach.mudengine.world",
+		"com.cailleach.mudengine.common"
+})
 @EnableAspectJAutoProxy
 public class MudWorldApplication {
 

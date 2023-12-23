@@ -2,10 +2,10 @@ package com.cailleach.mudengine.world.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.cailleach.mudengine.world.model.MudPlaceExit;
-import com.cailleach.mudengine.world.model.pk.MudPlaceExitPK;
+import com.cailleach.mudengine.world.model.PlaceExitEntity;
+import com.cailleach.mudengine.world.model.pk.PlaceExitEntityPK;
 
-public interface PlaceExitRepository extends CrudRepository<MudPlaceExit, MudPlaceExitPK> {
+public interface PlaceExitRepository extends CrudRepository<PlaceExitEntity, PlaceExitEntityPK> {
 
-	public Iterable<MudPlaceExit> findByTargetPlaceCode(Integer targetPlaceCode);
+	public Iterable<PlaceExitEntity> findByTargetPlaceCode(Integer targetPlaceCode);
 }

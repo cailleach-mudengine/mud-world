@@ -8,18 +8,20 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cailleach.mudengine.world.model.MudPlace;
-import com.cailleach.mudengine.world.model.MudPlaceAttr;
-import com.cailleach.mudengine.world.model.MudPlaceClass;
-import com.cailleach.mudengine.world.model.MudPlaceExit;
+import com.cailleach.mudengine.common.exception.EntityNotFoundException;
+import com.cailleach.mudengine.common.exception.IllegalParameterException;
+import com.cailleach.mudengine.world.model.PlaceEntity;
+import com.cailleach.mudengine.world.model.PlaceAttrEntity;
+import com.cailleach.mudengine.world.model.PlaceClassEntity;
+import com.cailleach.mudengine.world.model.PlaceExitEntity;
 import com.cailleach.mudengine.world.repository.PlaceClassRepository;
 import com.cailleach.mudengine.world.repository.PlaceRepository;
 import com.cailleach.mudengine.world.rest.dto.Place;
 import com.cailleach.mudengine.world.rest.dto.PlaceExit;
 import com.cailleach.mudengine.world.service.PlaceService;
-import com.cailleach.mudengine.world.service.converter.MudPlaceAttrConverter;
-import com.cailleach.mudengine.world.service.converter.MudPlaceExitConverter;
-import com.cailleach.mudengine.world.service.converter.PlaceConverter;
+import com.cailleach.mudengine.world.service.converter.todb.PlaceAttrEntityConverter;
+import com.cailleach.mudengine.world.service.converter.todb.PlaceExitEntityConverter;
+import com.cailleach.mudengine.world.service.converter.todto.PlaceConverter;
 import com.cailleach.mudengine.world.util.LocalizedMessages;
 import com.cailleach.mudengine.world.util.WorldHelper;
 
@@ -39,7 +41,7 @@ public class PlaceServiceImpl implements PlaceService {
 				.findById(placeId)
 				.map(PlaceConverter::convert)
 				.map(this::updateExitNames)
-				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_NOT_FOUND));
+				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_NOT_FOUND, placeId));
 	}
 	
 	private Place updateExitNames(Place originalPlace) {
@@ -66,9 +68,9 @@ public class PlaceServiceImpl implements PlaceService {
 		
 		Place response = null;
 		
-		MudPlace dbPlace = placeRepository
+		PlaceEntity dbPlace = placeRepository
 				.findById(placeId)
-				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_NOT_FOUND));
+				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_NOT_FOUND, placeId));
 		
 		
 		// 1.. Check place attributes
@@ -132,7 +134,7 @@ public class PlaceServiceImpl implements PlaceService {
 	 * @param requestPlace - service request
 	 * @return
 	 */
-	private boolean internalSyncPlaceHealth(final MudPlace dbPlace, final Place requestPlace) {
+	private boolean internalSyncPlaceHealth(final PlaceEntity dbPlace, final Place requestPlace) {
 
 		boolean placeDestroyed = false;
 		
@@ -142,7 +144,7 @@ public class PlaceServiceImpl implements PlaceService {
 		Integer maxHP = 
 				dbPlace.getAttrs().stream()
 					.filter(d-> d.getId().getCode().equals(WorldHelper.PLACE_MAX_HP_ATTR))
-					.mapToInt(MudPlaceAttr::getValue)
+					.mapToInt(PlaceAttrEntity::getValue)
 					.findFirst()
 					.orElse(0);
 		
@@ -175,7 +177,7 @@ public class PlaceServiceImpl implements PlaceService {
 	 * @param placeClass - new place class to be applied
 	 * @return
 	 */
-	private MudPlace internalSyncAttr(MudPlace dbPlace, MudPlaceClass previousPlaceClass, MudPlaceClass placeClass) {
+	private PlaceEntity internalSyncAttr(PlaceEntity dbPlace, PlaceClassEntity previousPlaceClass, PlaceClassEntity placeClass) {
 		
 		if (previousPlaceClass!=null) {
 			
@@ -198,11 +200,11 @@ public class PlaceServiceImpl implements PlaceService {
 		placeClass.getAttrs().stream()
 			.forEach(curClassAttr -> {
 				
-				MudPlaceAttr dbAttr = 
+				PlaceAttrEntity dbAttr = 
 					dbPlace.getAttrs().stream()
 						.filter(e -> e.getCode().equals(curClassAttr.getCode()))
 						.findFirst()
-						.orElse(MudPlaceAttrConverter.convert(dbPlace.getCode(), curClassAttr));
+						.orElse(PlaceAttrEntityConverter.convert(dbPlace.getCode(), curClassAttr));
 				
 				// Set the value regardless if the attr came from existing
 				// list or was created now
@@ -228,10 +230,10 @@ public class PlaceServiceImpl implements PlaceService {
 	 * @param requestPlace - service request place
 	 * @return
 	 */
-	private MudPlace internalSyncAttr(final MudPlace dbPlace, final Place requestPlace) {
+	private PlaceEntity internalSyncAttr(final PlaceEntity dbPlace, final Place requestPlace) {
 		
 		// Looking for attributes to remove
-		Set<MudPlaceAttr> filteredSet =
+		Set<PlaceAttrEntity> filteredSet =
 			dbPlace.getAttrs().stream()
 				// Filtering all database attributes...
 				.filter(db -> requestPlace.getAttrs().keySet().stream()
@@ -249,7 +251,7 @@ public class PlaceServiceImpl implements PlaceService {
 			Integer curValue = requestPlace.getAttrs().get(curAttr);
 			
 			// Looking for existing attribute in db record list
-			Optional<MudPlaceAttr> foundAttr = 
+			Optional<PlaceAttrEntity> foundAttr = 
 				dbPlace.getAttrs().stream()
 					.filter(a -> a.getId().getCode().equals(curAttr))
 					.findFirst();
@@ -263,7 +265,7 @@ public class PlaceServiceImpl implements PlaceService {
 				
 				// Creates a new attribute
 				dbPlace.getAttrs().add(
-						MudPlaceAttrConverter.build(dbPlace.getCode(), curAttr, curValue)
+						PlaceAttrEntityConverter.build(dbPlace.getCode(), curAttr, curValue)
 						);
 			}
 		}
@@ -271,12 +273,12 @@ public class PlaceServiceImpl implements PlaceService {
 		return dbPlace;
 	}
 	
-	private MudPlace internalSyncExits(MudPlace dbPlace, Place requestPlace) {
+	private PlaceEntity internalSyncExits(PlaceEntity dbPlace, Place requestPlace) {
 		
 		// 4. exits		
 		if (requestPlace.getExits()!=null) {
 			
-			Set<MudPlaceExit> newExits = new HashSet<>();
+			Set<PlaceExitEntity> newExits = new HashSet<>();
 			
 			requestPlace.getExits().keySet().stream()
 				.forEach(curDirection -> {
@@ -285,12 +287,12 @@ public class PlaceServiceImpl implements PlaceService {
 				PlaceExit curRequestExit = requestPlace.getExits().get(curDirection);
 					
 				// Search the exit in current db record
-				MudPlaceExit dbExit = 
+				PlaceExitEntity dbExit = 
 					dbPlace.getExits().stream()
 						.filter(e -> e.getPk().getDirection().equals(curDirection))
 						.findFirst()
 						.orElseGet(()-> 
-							MudPlaceExitConverter.build(curRequestExit, dbPlace.getCode(), curDirection)
+							PlaceExitEntityConverter.build(curRequestExit, dbPlace.getCode(), curDirection)
 						);
 				
 				
@@ -328,11 +330,11 @@ public class PlaceServiceImpl implements PlaceService {
 	 * @param newPlaceClassCode - code of the new placeClass
 	 * @return
 	 */
-	private MudPlace internalUpdateClass(MudPlace original, String newPlaceClassCode) {
+	private PlaceEntity internalUpdateClass(PlaceEntity original, String newPlaceClassCode) {
 		
-		MudPlaceClass placeClass = placeClassRepository
+		PlaceClassEntity placeClass = placeClassRepository
 				.findById(newPlaceClassCode)
-				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_CLASS_NOT_FOUND));
+				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_CLASS_NOT_FOUND, newPlaceClassCode));
 
 		internalSyncAttr(original, original.getPlaceClass(), placeClass);
 		original.setPlaceClass(placeClass);
@@ -344,9 +346,9 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public void destroyPlace(Integer placeId) {
 		
-		MudPlace dbPlace = placeRepository
+		PlaceEntity dbPlace = placeRepository
 				.findById(placeId)
-				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_NOT_FOUND));
+				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_NOT_FOUND, placeId));
 
 		// If exists a demise place class for this location
 		if (dbPlace.getPlaceClass().getDemisedPlaceClassCode()!=null) {
@@ -367,17 +369,15 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public Place createPlace(String placeClassCode, String direction, Integer targetPlaceCode) {
 		
-		Place response = null;
-		
 		// Retrieving the placeClass
-		MudPlaceClass dbPlaceClass = placeClassRepository
+		PlaceClassEntity dbPlaceClass = placeClassRepository
 				.findById(placeClassCode)
-				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_CLASS_NOT_FOUND));
+				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_CLASS_NOT_FOUND, placeClassCode));
 		
 		// Retrieving the targetPlace
-		MudPlace targetDbPlace = placeRepository
+		PlaceEntity targetDbPlace = placeRepository
 				.findById(targetPlaceCode)
-				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_NOT_FOUND));
+				.orElseThrow(() -> new EntityNotFoundException(LocalizedMessages.PLACE_NOT_FOUND, targetPlaceCode));
 		
 		// Check the corresponding exit of target place to be update in this flow
 		String correspondingDirection = PlaceExit.getOpposedDirection(direction);
@@ -389,18 +389,18 @@ public class PlaceServiceImpl implements PlaceService {
 			throw new IllegalParameterException(LocalizedMessages.PLACE_EXIT_EXISTS);
 		}
 		
-		MudPlace newPlace = new MudPlace();
+		PlaceEntity newPlace = new PlaceEntity();
 		newPlace.setPlaceClass(dbPlaceClass);
 
 		// Saving in database with minimum information in order to have the placeId
-		MudPlace dbPlace = placeRepository.save(newPlace);
+		PlaceEntity dbPlace = placeRepository.save(newPlace);
 		
 		// Updating attributes based on PlaceClass attributes
 		internalSyncAttr(dbPlace, null, dbPlaceClass);
 
 		// Creating the exit for the new place
 		dbPlace.getExits().add(
-				MudPlaceExitConverter.build(
+				PlaceExitEntityConverter.build(
 						dbPlace.getCode(), 
 						direction, 
 						targetPlaceCode)
@@ -410,7 +410,7 @@ public class PlaceServiceImpl implements PlaceService {
 		dbPlace = placeRepository.save(dbPlace);
 		
 		// Updating the targetPlace exit to have a corresponding exit to new place created
-		MudPlaceExit correspondingExit = MudPlaceExitConverter.build(
+		PlaceExitEntity correspondingExit = PlaceExitEntityConverter.build(
 				targetDbPlace.getCode(), 
 				correspondingDirection, 
 				dbPlace.getCode());
@@ -419,8 +419,6 @@ public class PlaceServiceImpl implements PlaceService {
 		placeRepository.save(targetDbPlace);
 		
 		// Converting the response to service-like response
-		response = PlaceConverter.convert(dbPlace);
-		
-		return response;
+		return PlaceConverter.convert(dbPlace);
 	}	
 }

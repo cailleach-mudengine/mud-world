@@ -4,14 +4,14 @@ package com.cailleach.mudengine.world.repository;
 import org.springframework.data.repository.CrudRepository;
 
 
-import com.cailleach.mudengine.world.model.MudPlace;
+import com.cailleach.mudengine.world.model.PlaceEntity;
 
-public interface PlaceRepository extends CrudRepository<MudPlace, Integer> {
+public interface PlaceRepository extends CrudRepository<PlaceEntity, Integer> {
 
 	/**
 	 * Just to AOP pointcut to be able to grab this
 	 */
 	@Override
-	<S extends MudPlace> S save(S entity);
+	<S extends PlaceEntity> S save(S entity);
 
 }
