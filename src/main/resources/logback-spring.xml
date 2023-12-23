@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<include resource="org/springframework/boot/logging/logback/default.xml"/>
+	
+    <property name="APP_NAME" value="mud-world"/>
+    <property name="APP_BASE_PACKAGE" value="com.jpinfo.mudengine.world"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} – %m%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <!-- GELF appender configuration -->
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <appender name="GELF" class="de.siegmar.logbackgelf.GelfUdpAppender">
+        <graylogHost>${LOGGING_HOST}</graylogHost>
+        <graylogPort>${LOGGING_PORT}</graylogPort>
+        <maxChunkSize>508</maxChunkSize>
+        <useCompression>true</useCompression>
+        <layout class="de.siegmar.logbackgelf.GelfLayout">
+            <includeRawMessage>false</includeRawMessage>
+            <includeMarker>true</includeMarker>
+            <includeMdcData>true</includeMdcData>
+            <includeCallerData>false</includeCallerData>
+            <includeRootCauseData>false</includeRootCauseData>
+            <includeLevelName>true</includeLevelName>
+            <shortPatternLayout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%m%nopex</pattern>
+            </shortPatternLayout>
+            <fullPatternLayout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>%m</pattern>
+            </fullPatternLayout>
+            <staticField>app_name:${APP_NAME}</staticField>
+        </layout>
+    </appender>
+    
+    <logger name="${APP_BASE_PACKAGE}" level="DEBUG" additivity="false">
+           <appender-ref ref="STDOUT"/>
+    </logger>  
+    
+    <root level="INFO">
+           <appender-ref ref="STDOUT"/>
+    </root>
+    
+    <springProfile name="dev">
+    
+    	<logger name="${APP_BASE_PACKAGE}" level="DEBUG" additivity="false">
+        	<appender-ref ref="GELF"/>
+        	<appender-ref ref="STDOUT"/>
+	    </logger>
+	    
+	    <root level="INFO">
+	    	<appender-ref ref="GELF"/>
+            <appender-ref ref="STDOUT"/>
+	    </root>
+    </springProfile>
+    
+    <springProfile name="itg">
+
+	    <logger name="${APP_BASE_PACKAGE}" level="DEBUG" additivity="false">
+        	<appender-ref ref="GELF"/>
+	    </logger>    
+
+	    <root level="INFO">
+	        <appender-ref ref="GELF"/>
+	    </root>
+	</springProfile>
+
+</configuration>
