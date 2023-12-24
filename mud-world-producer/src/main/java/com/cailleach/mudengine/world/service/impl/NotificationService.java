@@ -19,7 +19,6 @@ import com.cailleach.mudengine.common.utils.NotificationMessage.EnumNotification
 import com.cailleach.mudengine.world.model.PlaceEntity;
 import com.cailleach.mudengine.world.model.PlaceExitEntity;
 import com.cailleach.mudengine.world.rest.dto.PlaceExit;
-import com.cailleach.mudengine.world.util.WorldHelper;
 
 import jakarta.annotation.PostConstruct;
 
@@ -27,6 +26,16 @@ import jakarta.annotation.PostConstruct;
 public class NotificationService {
 	
 	private static final Logger log = LoggerFactory.getLogger(NotificationService.class);
+	
+	public static final String PLACE_DESTROY_MSG = "place.destroy";
+	public static final String PLACE_CLASS_CHANGE_MSG = "place.class.change";
+	
+	public static final String PLACE_EXIT_CREATE_MSG = "place.exit.create";
+	public static final String PLACE_EXIT_OPEN_MSG = "place.exit.open";
+	public static final String PLACE_EXIT_CLOSE_MSG = "place.exit.close";
+	public static final String PLACE_EXIT_LOCK_MSG = "place.exit.lock";
+	public static final String PLACE_EXIT_UNLOCK_MSG = "place.exit.unlock";
+
 	
 	private JmsTemplate jmsTemplate;
 	
@@ -54,7 +63,7 @@ public class NotificationService {
 				// What happened?
 				.event(EnumNotificationEvent.PLACE_DESTROY)
 				// Spread the news!
-				.messageKey(WorldHelper.PLACE_DESTROY_MSG)
+				.messageKey(PLACE_DESTROY_MSG)
 				.args(new String[] {
 						destroyedPlace.getName()!=null ? destroyedPlace.getName() : destroyedPlace.getPlaceClass().getName()
 						})
@@ -131,7 +140,7 @@ public class NotificationService {
 					// What happened?
 					.event(EnumNotificationEvent.PLACE_CLASS_CHANGE)
 					// Spread the news!
-					.messageKey(WorldHelper.PLACE_CLASS_CHANGE_MSG)
+					.messageKey(PLACE_CLASS_CHANGE_MSG)
 					.args(new String[] {
 							beforePlace.getName()!=null ? beforePlace.getName() : beforePlace.getPlaceClass().getName(),
 							afterPlace.getPlaceClass().getName()
@@ -167,7 +176,7 @@ public class NotificationService {
 						// What happened?
 						.event(EnumNotificationEvent.PLACE_EXIT_CREATE)
 						// Spread the news!
-						.messageKey(WorldHelper.PLACE_EXIT_CREATE_MSG)
+						.messageKey(PLACE_EXIT_CREATE_MSG)
 						.args(new String[] {
 								PlaceExit.getOpposedDirection(d.getPk().getDirection())
 								})
@@ -184,17 +193,17 @@ public class NotificationService {
 				NotificationMessage otherPlaceNotification = NotificationMessage.builder()
 						// Who?
 						.entity(NotificationMessage.EnumEntity.PLACE)
-						.entityId(d.getTargetPlaceCode().longValue())
+						.entityId(d.getTargetPlaceCode())
 						// What happened?
 						.event(EnumNotificationEvent.PLACE_EXIT_CREATE)
 						// Spread the news!
-						.messageKey(WorldHelper.PLACE_EXIT_CREATE_MSG)
+						.messageKey(PLACE_EXIT_CREATE_MSG)
 						.args(new String[] {
 								d.getPk().getDirection()
 								})
 						// The guys in the place will take interest on that
 						.targetEntity(EnumEntity.PLACE)
-						.targetEntityId(d.getTargetPlaceCode().longValue())
+						.targetEntityId(d.getTargetPlaceCode())
 						.worldName(getWorldName())
 					.build();
 
@@ -248,7 +257,7 @@ public class NotificationService {
 			// send place.exit.close notification
 			sendExitChangeNotification(placeCode, beforeExit.getDirection(), 
 					NotificationMessage.EnumNotificationEvent.PLACE_EXIT_CLOSE, 
-					WorldHelper.PLACE_EXIT_CLOSE_MSG, notifications);
+					PLACE_EXIT_CLOSE_MSG, notifications);
 		}
 		
 		if (!beforeExit.isOpened() && afterExit.isOpened()) {
@@ -256,7 +265,7 @@ public class NotificationService {
 			// send place.exit.open notification
 			sendExitChangeNotification(placeCode, beforeExit.getDirection(), 
 					NotificationMessage.EnumNotificationEvent.PLACE_EXIT_OPEN, 
-					WorldHelper.PLACE_EXIT_OPEN_MSG, notifications);
+					PLACE_EXIT_OPEN_MSG, notifications);
 		}
 		
 		if (beforeExit.isLocked() && !afterExit.isLocked()) {
@@ -264,7 +273,7 @@ public class NotificationService {
 			// send place.exit.unlock notification
 			sendExitChangeNotification(placeCode, beforeExit.getDirection(), 
 					NotificationMessage.EnumNotificationEvent.PLACE_EXIT_UNLOCK, 
-					WorldHelper.PLACE_EXIT_UNLOCK_MSG, notifications);
+					PLACE_EXIT_UNLOCK_MSG, notifications);
 		}
 		
 		if (!beforeExit.isLocked() && afterExit.isLocked()) {
@@ -272,7 +281,7 @@ public class NotificationService {
 			// send place.exit.lock notification
 			sendExitChangeNotification(placeCode, beforeExit.getDirection(), 
 					NotificationMessage.EnumNotificationEvent.PLACE_EXIT_LOCK, 
-					WorldHelper.PLACE_EXIT_LOCK_MSG, notifications);
+					PLACE_EXIT_LOCK_MSG, notifications);
 			
 		}
 	}

@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>mud-world-service</artifactId>
+	<artifactId>mud-world-producer</artifactId>
 
 	<parent>
 		<groupId>com.cailleach.mudengine</groupId>
@@ -30,25 +30,14 @@
 
 		<dependency>
 			<groupId>com.cailleach.mudengine</groupId>
-			<artifactId>mud-world-producer</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.cailleach.mudengine</groupId>
 			<artifactId>mud-common</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-aop</artifactId>
+			<artifactId>spring-boot-starter-activemq</artifactId>
 		</dependency>
-
 
 
 		<!-- Common dependencies -->

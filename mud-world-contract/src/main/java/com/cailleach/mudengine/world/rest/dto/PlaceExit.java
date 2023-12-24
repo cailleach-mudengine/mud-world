@@ -22,7 +22,6 @@ public class PlaceExit {
 
 	private Long targetPlaceCode;
 	
-	
 	public static String getOpposedDirection(String direction) {
 		
 		int size = PlaceExit.DIRECTIONS.size(); 
@@ -31,5 +30,6 @@ public class PlaceExit {
 		int newpos = size - originalPos - 1;
 		
 		return PlaceExit.DIRECTIONS.get(newpos);
-	}
+	}	
+	
 }

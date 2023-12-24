@@ -24,10 +24,11 @@
     </properties>    
 
     <modules>
-        <module>mud-world-app</module>
-        <module>mud-world-model</module>
-        <module>mud-world-contract</module>
+		<module>mud-world-model</module>
+		<module>mud-world-contract</module>
+		<module>mud-world-producer</module>
         <module>mud-world-service</module>
+        <module>mud-world-app</module>
     </modules>
 
     <dependencies>
