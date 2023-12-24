@@ -8,7 +8,7 @@ public class PlaceAttrEntityConverter {
 
 	private PlaceAttrEntityConverter() { }
 	
-	public static PlaceAttrEntity convert(Integer placeCode, PlaceClassAttrEntity classAttr) {
+	public static PlaceAttrEntity convert(Long placeCode, PlaceClassAttrEntity classAttr) {
 		
 		PlaceAttrEntity response = new PlaceAttrEntity();
 		PlaceAttrEntityPK pk = new PlaceAttrEntityPK();
@@ -22,7 +22,7 @@ public class PlaceAttrEntityConverter {
 		return response;
 	}
 	
-	public static PlaceAttrEntity build(Integer placeCode, String attrCode, Integer attrValue) {
+	public static PlaceAttrEntity build(Long placeCode, String attrCode, Integer attrValue) {
 		
 		PlaceAttrEntity response = new PlaceAttrEntity();
 		PlaceAttrEntityPK pk = new PlaceAttrEntityPK();

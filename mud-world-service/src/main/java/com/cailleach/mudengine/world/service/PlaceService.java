@@ -4,12 +4,12 @@ import com.cailleach.mudengine.world.rest.dto.Place;
 
 public interface PlaceService {
 
-	Place getPlace(Integer placeId);
+	Place getPlace(Long placeId);
 
-	Place updatePlace(Integer placeId, Place requestPlace);
+	Place updatePlace(Long placeId, Place requestPlace);
 
-	void destroyPlace(Integer placeId);
+	void destroyPlace(Long placeId);
 
-	Place createPlace(String placeClassCode, String direction, Integer targetPlaceCode);
+	Place createPlace(String placeClassCode, String direction, Long targetPlaceCode);
 
 }

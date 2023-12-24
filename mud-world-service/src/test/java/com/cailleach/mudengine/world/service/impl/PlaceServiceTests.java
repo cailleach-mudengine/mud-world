@@ -38,12 +38,12 @@ class PlaceServiceTests {
 	private static final String OTHER_ATTR = "OTH";
 	private static final Integer OTHER_ATTR_CHANGED_VALUE = 8;
 
-	private static final Integer CREATE_PLACE_ID = 99;
+	private static final Long CREATE_PLACE_ID = 99L;
 	private static final String CREATE_PLACE_CLASS = "TEST";
 	private static final String CREATE_PLACE_EXIT_DIRECTION = "UP";
-	private static final Integer CREATE_PLACE_EXIT_TARGET = 1;
+	private static final Long CREATE_PLACE_EXIT_TARGET = 1L;
 	
-	private static final Integer DELETE_DEMISED_PLACE_ID = 6;
+	private static final Long DELETE_DEMISED_PLACE_ID = 6L;
 	private static final String DELETE_DEMISED_PLACE_CLASS = "RUIN";
 
 	@Mock
@@ -70,11 +70,11 @@ class PlaceServiceTests {
 						);
 			});
 		
-		lenient().when(mockRepository.findById(ArgumentMatchers.anyInt()))
+		lenient().when(mockRepository.findById(ArgumentMatchers.anyLong()))
 			.thenAnswer(i -> {
 				
 				return Optional.of(
-						PlaceTestData.loadMudPlace(i.getArgument(0, Integer.class))
+						PlaceTestData.loadMudPlace(i.getArgument(0, Long.class))
 						);
 			});
 		

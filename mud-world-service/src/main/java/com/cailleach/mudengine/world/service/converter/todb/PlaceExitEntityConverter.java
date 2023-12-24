@@ -8,7 +8,7 @@ public class PlaceExitEntityConverter {
 
 	private PlaceExitEntityConverter()  { }
 	
-	public static PlaceExitEntity build(Integer placeCode, String direction, Integer targetPlaceCode) {
+	public static PlaceExitEntity build(Long placeCode, String direction, Long targetPlaceCode) {
 		
 		PlaceExitEntity newExit = new PlaceExitEntity();
 		PlaceExitEntityPK newExitPK = new PlaceExitEntityPK();
@@ -28,7 +28,7 @@ public class PlaceExitEntityConverter {
 		return newExit;
 	}
 	
-	public static PlaceExitEntity build(PlaceExit requestExit, Integer placeCode, String direction) {
+	public static PlaceExitEntity build(PlaceExit requestExit, Long placeCode, String direction) {
 		
 		
 		PlaceExitEntity newExit = new PlaceExitEntity();

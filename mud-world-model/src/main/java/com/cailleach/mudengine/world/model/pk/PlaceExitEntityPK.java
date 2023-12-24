@@ -15,7 +15,7 @@ public class PlaceExitEntityPK implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer placeCode;
+	private Long placeCode;
 	
 	@Column(length = 10)
 	private String direction;

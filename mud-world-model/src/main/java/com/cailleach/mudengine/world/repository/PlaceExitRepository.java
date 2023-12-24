@@ -7,5 +7,5 @@ import com.cailleach.mudengine.world.model.pk.PlaceExitEntityPK;
 
 public interface PlaceExitRepository extends CrudRepository<PlaceExitEntity, PlaceExitEntityPK> {
 
-	public Iterable<PlaceExitEntity> findByTargetPlaceCode(Integer targetPlaceCode);
+	public Iterable<PlaceExitEntity> findByTargetPlaceCode(Long targetPlaceCode);
 }

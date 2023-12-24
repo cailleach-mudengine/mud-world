@@ -35,7 +35,7 @@ public class PlaceExitEntity {
 	private boolean lockable;
 
 	@Column(name="TARGET_PLACE_CODE", nullable = false)
-	private Integer targetPlaceCode;
+	private Long targetPlaceCode;
 	
 	@Transient
 	public String getDirection() {

@@ -12,7 +12,7 @@ public class PlaceEntity {
 	
 	@Id
 	@GeneratedValue(generator="mud_place_seq", strategy=GenerationType.SEQUENCE)
-	private Integer code;
+	private Long code;
 	
 	@Column(name="NAME")
 	private String name;

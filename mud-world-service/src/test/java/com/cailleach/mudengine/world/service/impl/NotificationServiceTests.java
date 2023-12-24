@@ -26,7 +26,7 @@ class NotificationServiceTests {
 
 	
 	private static final String NEW_EXIT_DIRECTION = "UP";
-	private static final Integer NEW_EXIT_TARGET = 2;
+	private static final Long NEW_EXIT_TARGET = 2L;
 	
 	@Mock
 	private JmsTemplate jmsTemplate;

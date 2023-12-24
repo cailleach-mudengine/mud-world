@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.cailleach.mudengine.world.model.PlaceEntity;
 
-public interface PlaceRepository extends CrudRepository<PlaceEntity, Integer> {
+public interface PlaceRepository extends CrudRepository<PlaceEntity, Long> {
 
 	/**
 	 * Just to AOP pointcut to be able to grab this

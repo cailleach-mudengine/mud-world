@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class Place {
 	
-	private Integer code;
+	private Long code;
 	
 	private String name;
 	

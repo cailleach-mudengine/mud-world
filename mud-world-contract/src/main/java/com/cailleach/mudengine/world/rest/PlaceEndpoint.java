@@ -24,7 +24,7 @@ public interface PlaceEndpoint {
 	 * @param targetPlaceCode - existing place to link with the new one
 	 */
 	@PutMapping()
-	ResponseEntity<Place> createPlace(@RequestParam("placeClassCode") String placeClassCode, @RequestParam("direction") String direction, @RequestParam("targetPlaceCode") Integer targetPlaceCode );
+	ResponseEntity<Place> createPlace(@RequestParam("placeClassCode") String placeClassCode, @RequestParam("direction") String direction, @RequestParam("targetPlaceCode") Long targetPlaceCode );
 	
 	/**
 	 * Returns the place description and all related information about it.
@@ -37,7 +37,7 @@ public interface PlaceEndpoint {
 	 * @return
 	 */
 	@GetMapping(value="/{placeId}")
-	Place getPlace(@PathVariable("placeId") Integer placeId);
+	Place getPlace(@PathVariable("placeId") Long placeId);
 
 	/**
 	 * Update an existing place.
@@ -51,7 +51,7 @@ public interface PlaceEndpoint {
 	 * @param requestPlace
 	 */
 	@PostMapping(value="/{placeId}")
-	Place updatePlace(@PathVariable("placeId") Integer placeId, @RequestBody Place requestPlace);
+	Place updatePlace(@PathVariable("placeId") Long placeId, @RequestBody Place requestPlace);
 	
 	/**
 	 * Destroys a place.
@@ -63,6 +63,6 @@ public interface PlaceEndpoint {
 	 * @param placeId
 	 */
 	@DeleteMapping(value="/{placeId}")
-	void destroyPlace(@PathVariable("placeId") Integer placeId);
+	void destroyPlace(@PathVariable("placeId") Long placeId);
 
 }

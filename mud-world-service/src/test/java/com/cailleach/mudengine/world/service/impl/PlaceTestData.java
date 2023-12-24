@@ -15,10 +15,10 @@ public class PlaceTestData {
 	private static final String MUD_PLACE_CLASS_PREFIX = "src/test/resources/mudplaceclass-";
 	private static final String MUD_PLACE_CLASS_SUFFIX = ".json";
 	
-	public static final Integer READ_PLACE_ID = 1;
+	public static final Long READ_PLACE_ID = 1L;
 	public static final String UPDATE_CLASS_PLACE_CLASS = "TESTBLDG";
 	
-	public static final Integer TARGET_PLACE_ID = 2;
+	public static final Long TARGET_PLACE_ID = 2L;
 	
 	private static ObjectMapper jsonMapper = new ObjectMapper();
 	
@@ -31,7 +31,7 @@ public class PlaceTestData {
 				), PlaceClassEntity.class);
 	}
 	
-	public static PlaceEntity loadMudPlace(Integer placeId) throws IOException{
+	public static PlaceEntity loadMudPlace(Long placeId) throws IOException{
 		
 		return jsonMapper.readValue(new File(
 				PlaceTestData.MUD_PLACE_PREFIX +

@@ -50,7 +50,7 @@ public class NotificationService {
 		NotificationMessage placeNotification = NotificationMessage.builder()
 				// Who?
 				.entity(NotificationMessage.EnumEntity.PLACE)
-				.entityId(destroyedPlace.getCode().longValue())
+				.entityId(destroyedPlace.getCode())
 				// What happened?
 				.event(EnumNotificationEvent.PLACE_DESTROY)
 				// Spread the news!
@@ -60,7 +60,7 @@ public class NotificationService {
 						})
 				// The guys in the place will take interest on that  :D
 				.targetEntity(EnumEntity.PLACE)
-				.targetEntityId(destroyedPlace.getCode().longValue())
+				.targetEntityId(destroyedPlace.getCode())
 				.worldName(getWorldName())
 			.build();
 		
@@ -127,7 +127,7 @@ public class NotificationService {
 			NotificationMessage placeNotification = NotificationMessage.builder()
 					// Who?
 					.entity(NotificationMessage.EnumEntity.PLACE)
-					.entityId(afterPlace.getCode().longValue())
+					.entityId(afterPlace.getCode())
 					// What happened?
 					.event(EnumNotificationEvent.PLACE_CLASS_CHANGE)
 					// Spread the news!
@@ -138,7 +138,7 @@ public class NotificationService {
 							})
 					// The guys in the place will take interest on that
 					.targetEntity(EnumEntity.PLACE)
-					.targetEntityId(afterPlace.getCode().longValue())
+					.targetEntityId(afterPlace.getCode())
 					.worldName(getWorldName())
 				.build();
 			
@@ -163,7 +163,7 @@ public class NotificationService {
 				NotificationMessage placeNotification = NotificationMessage.builder()
 						// Who?
 						.entity(NotificationMessage.EnumEntity.PLACE)
-						.entityId(afterPlace.getCode().longValue())
+						.entityId(afterPlace.getCode())
 						// What happened?
 						.event(EnumNotificationEvent.PLACE_EXIT_CREATE)
 						// Spread the news!
@@ -173,7 +173,7 @@ public class NotificationService {
 								})
 						// The guys in the place will take interest on that
 						.targetEntity(EnumEntity.PLACE)
-						.targetEntityId(afterPlace.getCode().longValue())
+						.targetEntityId(afterPlace.getCode())
 						.worldName(getWorldName())
 					.build();
 
@@ -241,7 +241,7 @@ public class NotificationService {
 	 * @param beforeExit - current state of the exit.
 	 * @param afterExit - future state of the exit.
 	 */
-	private void checkOneUpdatedExit(Integer placeCode, PlaceExitEntity beforeExit, PlaceExitEntity afterExit, List<NotificationMessage> notifications) {
+	private void checkOneUpdatedExit(Long placeCode, PlaceExitEntity beforeExit, PlaceExitEntity afterExit, List<NotificationMessage> notifications) {
 		
 		if (beforeExit.isOpened() && !afterExit.isOpened()) {
 
@@ -287,12 +287,12 @@ public class NotificationService {
 	 * @param messageKey - message to be presented for this event as defined in WorldHelper
 	 * @return
 	 */
-	private void sendExitChangeNotification(Integer placeId, String direction, NotificationMessage.EnumNotificationEvent event, String messageKey, List<NotificationMessage> notifications) {
+	private void sendExitChangeNotification(Long placeId, String direction, NotificationMessage.EnumNotificationEvent event, String messageKey, List<NotificationMessage> notifications) {
 
 		NotificationMessage placeNotification = NotificationMessage.builder()
 				// Who?
 				.entity(NotificationMessage.EnumEntity.PLACE)
-				.entityId(placeId.longValue())
+				.entityId(placeId)
 				// What happened?
 				.event(event)
 				// Spread the news!

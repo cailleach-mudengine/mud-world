@@ -19,28 +19,27 @@ public class PlaceController implements PlaceEndpoint {
 	private final PlaceService service;
 	
 	@Override
-	public Place getPlace(
-			@PathVariable Integer placeId) {
+	public Place getPlace(@PathVariable Long placeId) {
 
 		return service.getPlace(placeId);
 	}
 
 	
 	@Override
-	public Place updatePlace(@PathVariable Integer placeId, @RequestBody Place requestPlace) {
+	public Place updatePlace(@PathVariable Long placeId, @RequestBody Place requestPlace) {
 		
 		return service.updatePlace(placeId, requestPlace);
 	}
 
 	@Override
-	public void destroyPlace(@PathVariable Integer placeId) {
+	public void destroyPlace(@PathVariable Long placeId) {
 		
 		service.destroyPlace(placeId);
 	}
 
 
 	@Override
-	public ResponseEntity<Place> createPlace(String placeClassCode, String direction, Integer targetPlaceCode) {
+	public ResponseEntity<Place> createPlace(String placeClassCode, String direction, Long targetPlaceCode) {
 		
 		Place response = service.createPlace(placeClassCode, direction, targetPlaceCode);
 		

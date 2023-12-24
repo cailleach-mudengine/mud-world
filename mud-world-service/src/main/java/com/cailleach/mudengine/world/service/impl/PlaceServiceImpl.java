@@ -25,20 +25,18 @@ import com.cailleach.mudengine.world.service.converter.todto.PlaceConverter;
 import com.cailleach.mudengine.common.utils.LocalizedMessages;
 import com.cailleach.mudengine.world.util.WorldHelper;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class PlaceServiceImpl implements PlaceService {
 
-	private PlaceRepository placeRepository;
+	private final PlaceRepository placeRepository;
 
-	private PlaceClassRepository placeClassRepository;
-	
-	public PlaceServiceImpl(PlaceRepository placeRepository, PlaceClassRepository placeClassRepository) {
-		this.placeRepository = placeRepository;
-		this.placeClassRepository = placeClassRepository;
-	}
+	private final PlaceClassRepository placeClassRepository;
 
 	@Override
-	public Place getPlace(Integer placeId) {
+	public Place getPlace(Long placeId) {
 		
 		return placeRepository
 				.findById(placeId)
@@ -67,7 +65,7 @@ public class PlaceServiceImpl implements PlaceService {
 
 	
 	@Override
-	public Place updatePlace(Integer placeId, Place requestPlace) {
+	public Place updatePlace(Long placeId, Place requestPlace) {
 		
 		Place response = null;
 		
@@ -347,7 +345,7 @@ public class PlaceServiceImpl implements PlaceService {
 
 
 	@Override
-	public void destroyPlace(Integer placeId) {
+	public void destroyPlace(Long placeId) {
 		
 		PlaceEntity dbPlace = placeRepository
 				.findById(placeId)
@@ -370,7 +368,7 @@ public class PlaceServiceImpl implements PlaceService {
 
 
 	@Override
-	public Place createPlace(String placeClassCode, String direction, Integer targetPlaceCode) {
+	public Place createPlace(String placeClassCode, String direction, Long targetPlaceCode) {
 		
 		// Retrieving the placeClass
 		PlaceClassEntity dbPlaceClass = placeClassRepository

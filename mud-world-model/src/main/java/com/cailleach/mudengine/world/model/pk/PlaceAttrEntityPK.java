@@ -16,7 +16,7 @@ public class PlaceAttrEntityPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="PLACE_CODE")
-	private Integer placeCode;
+	private Long placeCode;
 
 	@Column(name="CODE", length = 5)
 	private String code;

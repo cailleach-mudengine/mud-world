@@ -20,7 +20,7 @@ public class PlaceExit {
 	
 	private boolean lockable;
 
-	private Integer targetPlaceCode;
+	private Long targetPlaceCode;
 	
 	
 	public static String getOpposedDirection(String direction) {
