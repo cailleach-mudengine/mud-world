@@ -9,7 +9,7 @@ import com.cailleach.mudengine.world.repository.PlaceClassRepository;
 import com.cailleach.mudengine.world.rest.dto.PlaceClass;
 import com.cailleach.mudengine.world.service.PlaceClassService;
 import com.cailleach.mudengine.world.service.converter.todto.PlaceClassConverter;
-import com.cailleach.mudengine.world.util.LocalizedMessages;
+import com.cailleach.mudengine.common.utils.LocalizedMessages;
 
 @Service
 public class PlaceClassServiceImpl implements PlaceClassService {

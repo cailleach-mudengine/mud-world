@@ -22,7 +22,7 @@ import com.cailleach.mudengine.world.service.PlaceService;
 import com.cailleach.mudengine.world.service.converter.todb.PlaceAttrEntityConverter;
 import com.cailleach.mudengine.world.service.converter.todb.PlaceExitEntityConverter;
 import com.cailleach.mudengine.world.service.converter.todto.PlaceConverter;
-import com.cailleach.mudengine.world.util.LocalizedMessages;
+import com.cailleach.mudengine.common.utils.LocalizedMessages;
 import com.cailleach.mudengine.world.util.WorldHelper;
 
 @Service

@@ -1,11 +1,14 @@
 spring:
   application:
     name: mud-world
-    
+
   datasource:
-    url: jdbc:mysql://localhost:3306/customer
+    url: jdbc:postgresql://jeremias:5432/mudengine
     username: simulator
     password: simulator
+
+token:
+  secret: fake-token-secret
     
 management:
   endpoints:
@@ -26,3 +29,4 @@ management:
           UNKNOWN: 200
           DOWN: 503
           '[OUT_OF_SERVICE]': 503
+          

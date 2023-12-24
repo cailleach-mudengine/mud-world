@@ -12,8 +12,6 @@ import com.cailleach.mudengine.world.rest.PlaceEndpoint;
 import com.cailleach.mudengine.world.rest.dto.Place;
 import com.cailleach.mudengine.world.service.PlaceService;
 
-import io.swagger.annotations.ApiOperation;
-
 @RestController
 public class PlaceController implements PlaceEndpoint {
 	
@@ -21,7 +19,6 @@ public class PlaceController implements PlaceEndpoint {
 	private PlaceService service;
 	
 	@Override
-	@ApiOperation(value="Returns information about a place")
 	public Place getPlace(
 			@PathVariable Integer placeId) {
 
