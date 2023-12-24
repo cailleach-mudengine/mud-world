@@ -21,7 +21,7 @@ import com.cailleach.mudengine.world.repository.PlaceClassRepository;
 import com.cailleach.mudengine.world.rest.dto.PlaceClass;
 
 @ExtendWith(MockitoExtension.class)
-public class PlaceClassServiceTests {
+class PlaceClassServiceTests {
 
 	@Mock
 	private PlaceClassRepository mockClassRepository;
@@ -44,7 +44,7 @@ public class PlaceClassServiceTests {
 	}
 	
 	@Test
-	public void testGetPlaceClass() throws IOException {
+	void testGetPlaceClass() throws IOException {
 		
 		PlaceClassEntity dbClass = PlaceTestData.loadMudPlaceClass(PlaceTestData.UPDATE_CLASS_PLACE_CLASS);
 		

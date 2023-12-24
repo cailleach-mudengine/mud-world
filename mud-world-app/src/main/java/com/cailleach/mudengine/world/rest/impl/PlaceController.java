@@ -1,7 +1,5 @@
 package com.cailleach.mudengine.world.rest.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +10,13 @@ import com.cailleach.mudengine.world.rest.PlaceEndpoint;
 import com.cailleach.mudengine.world.rest.dto.Place;
 import com.cailleach.mudengine.world.service.PlaceService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class PlaceController implements PlaceEndpoint {
 	
-	@Autowired
-	private PlaceService service;
+	private final PlaceService service;
 	
 	@Override
 	public Place getPlace(

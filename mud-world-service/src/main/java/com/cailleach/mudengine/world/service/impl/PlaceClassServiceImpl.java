@@ -1,7 +1,5 @@
 package com.cailleach.mudengine.world.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
 import com.cailleach.mudengine.common.exception.EntityNotFoundException;
@@ -14,8 +12,11 @@ import com.cailleach.mudengine.common.utils.LocalizedMessages;
 @Service
 public class PlaceClassServiceImpl implements PlaceClassService {
 
-	@Autowired
 	private PlaceClassRepository repository;
+	
+	public PlaceClassServiceImpl(PlaceClassRepository repository) {
+		this.repository = repository;
+	}
 	
 	@Override
 	public PlaceClass getPlaceClass(String placeClass) {

@@ -27,15 +27,12 @@ public class RestExceptionHandler {
 		
 		String localizedMessage = LocalizedMessages.getMessage(getLocale(), ex.getMessageKey(), ex.getMessageParams());
 
-		ApiErrorMessage result = ApiErrorMessage.builder()
+		return ApiErrorMessage.builder()
 				.status(HttpStatus.BAD_REQUEST.getReasonPhrase())
 				.error(HttpStatus.BAD_REQUEST.toString())
 				.message(localizedMessage)
 				.timestamp(OffsetDateTime.now())
 				.build();
-
-
-		return result;
 	}
 
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -44,14 +41,12 @@ public class RestExceptionHandler {
 
 		log.error("Error na chamada", ex);
 
-		ApiErrorMessage result = ApiErrorMessage.builder()
+		return ApiErrorMessage.builder()
 				.status(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
 				.error(HttpStatus.INTERNAL_SERVER_ERROR.toString())
 				.message(ex.getMessage())
 				.timestamp(OffsetDateTime.now())
 				.build();
-
-		return result;
 	}
 	
 	/**

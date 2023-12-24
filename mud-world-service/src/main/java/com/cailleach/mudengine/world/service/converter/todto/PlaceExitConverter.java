@@ -5,6 +5,8 @@ import com.cailleach.mudengine.world.rest.dto.PlaceExit;
 
 public class PlaceExitConverter {
 	
+	private PlaceExitConverter() { }
+	
 	public static PlaceExit convert(PlaceExitEntity dbPlaceExit) {
 		
 		PlaceExit result = new PlaceExit();

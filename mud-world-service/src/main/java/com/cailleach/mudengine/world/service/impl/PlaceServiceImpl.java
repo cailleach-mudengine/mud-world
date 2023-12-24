@@ -1,11 +1,11 @@
 package com.cailleach.mudengine.world.service.impl;
 
 import java.util.HashSet;
+
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cailleach.mudengine.common.exception.EntityNotFoundException;
@@ -28,11 +28,14 @@ import com.cailleach.mudengine.world.util.WorldHelper;
 @Service
 public class PlaceServiceImpl implements PlaceService {
 
-	@Autowired
 	private PlaceRepository placeRepository;
 
-	@Autowired
 	private PlaceClassRepository placeClassRepository;
+	
+	public PlaceServiceImpl(PlaceRepository placeRepository, PlaceClassRepository placeClassRepository) {
+		this.placeRepository = placeRepository;
+		this.placeClassRepository = placeClassRepository;
+	}
 
 	@Override
 	public Place getPlace(Integer placeId) {

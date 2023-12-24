@@ -2,12 +2,12 @@ package com.cailleach.mudengine.world.service.impl;
 
 import java.util.ArrayList;
 
+
 import java.util.List;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cailleach.mudengine.common.utils.NotificationMessage;
@@ -16,19 +16,19 @@ import com.cailleach.mudengine.world.repository.PlaceRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import lombok.RequiredArgsConstructor;
 
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class NotificationAspect {
 
-	@Autowired
-	private NotificationService service;
+	private final NotificationService service;
 	
-	@Autowired
-	private PlaceRepository repository;
+	private final PlaceRepository repository;
 	
 	@PersistenceContext
-	private EntityManager em;
+	private final EntityManager em;
 	
 	/**
 	 * This join point intercepts all place saves performed by the service. 
@@ -59,7 +59,7 @@ public class NotificationAspect {
 					repository.findById(afterPlace.getCode())
 					// Comparing before and after items					
 					.map(beforePlace -> service.handlePlaceChange(beforePlace, afterPlace))
-					.orElse(new ArrayList<NotificationMessage>());
+					.orElse(new ArrayList<>());
 			
 			// Execute the save operation
 			savedPlace = pjp.proceed();

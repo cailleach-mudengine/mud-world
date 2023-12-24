@@ -22,7 +22,7 @@ import com.cailleach.mudengine.world.model.pk.PlaceExitEntityPK;
 import jakarta.jms.Destination;
 
 @ExtendWith(MockitoExtension.class)
-public class NotificationServiceTests {
+class NotificationServiceTests {
 
 	
 	private static final String NEW_EXIT_DIRECTION = "UP";
@@ -35,7 +35,7 @@ public class NotificationServiceTests {
 	private NotificationService service;
 	
 	@Test
-	public void testPlaceDestroy() throws IOException {
+	void testPlaceDestroy() throws IOException {
 		
 		List<NotificationMessage> notifications =
 				service.handlePlaceDestroy(
@@ -58,7 +58,7 @@ public class NotificationServiceTests {
 	}
 	
 	@Test
-	public void testPlaceClassChanges() throws IOException {
+	void testPlaceClassChanges() throws IOException {
 		
 		PlaceEntity afterPlace = PlaceTestData.loadMudPlace(PlaceTestData.READ_PLACE_ID);
 		
@@ -87,7 +87,7 @@ public class NotificationServiceTests {
 	}
 	
 	@Test
-	public void testNewlyCreatedExits() throws IOException {
+	void testNewlyCreatedExits() throws IOException {
 		
 		PlaceEntity afterPlace = PlaceTestData.loadMudPlace(PlaceTestData.READ_PLACE_ID);
 
@@ -131,7 +131,7 @@ public class NotificationServiceTests {
 	}
 	
 	@Test
-	public void testCloseExit() throws IOException {
+	void testCloseExit() throws IOException {
 		
 		PlaceEntity afterPlace = PlaceTestData.loadMudPlace(PlaceTestData.READ_PLACE_ID);
 		afterPlace.getExits().iterator().next().setOpened(false);
@@ -158,7 +158,7 @@ public class NotificationServiceTests {
 	}
 	
 	@Test
-	public void testLockExit() throws IOException {
+	void testLockExit() throws IOException {
 		
 		PlaceEntity afterPlace = PlaceTestData.loadMudPlace(PlaceTestData.READ_PLACE_ID);
 		afterPlace.getExits().iterator().next().setLocked(true);
@@ -186,7 +186,7 @@ public class NotificationServiceTests {
 	
 	
 	@Test
-	public void testOpenExit() throws IOException {
+	void testOpenExit() throws IOException {
 		
 		PlaceEntity afterPlace = PlaceTestData.loadMudPlace(PlaceTestData.TARGET_PLACE_ID);
 		afterPlace.getExits().iterator().next().setOpened(true);
@@ -213,7 +213,7 @@ public class NotificationServiceTests {
 	}
 	
 	@Test
-	public void testUnlockExit() throws IOException {
+	void testUnlockExit() throws IOException {
 		
 		PlaceEntity afterPlace = PlaceTestData.loadMudPlace(PlaceTestData.TARGET_PLACE_ID);
 		afterPlace.getExits().iterator().next().setLocked(false);

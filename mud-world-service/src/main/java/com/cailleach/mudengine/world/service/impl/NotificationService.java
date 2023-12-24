@@ -1,13 +1,11 @@
 package com.cailleach.mudengine.world.service.impl;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.apache.activemq.command.ActiveMQTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,13 +28,16 @@ public class NotificationService {
 	
 	private static final Logger log = LoggerFactory.getLogger(NotificationService.class);
 	
-	@Autowired
 	private JmsTemplate jmsTemplate;
 	
 	@Value("${place.topic:disabled}")
 	private String placeTopicName;
 	
 	private ActiveMQTopic placeTopic;
+	
+	public NotificationService(JmsTemplate jmsTemplate) {
+		this.jmsTemplate = jmsTemplate;
+	}
 
 	@PostConstruct
 	public void setup() {

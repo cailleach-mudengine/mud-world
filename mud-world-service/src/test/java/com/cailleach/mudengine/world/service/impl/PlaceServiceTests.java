@@ -24,7 +24,7 @@ import com.cailleach.mudengine.world.repository.PlaceRepository;
 import com.cailleach.mudengine.world.rest.dto.Place;
 
 @ExtendWith(MockitoExtension.class)
-public class PlaceServiceTests {
+class PlaceServiceTests {
 	
 	private static final String HP_ATTR = "HP";
 	private static final Integer HP_ATTR_CHANGED_VALUE = 5;
@@ -96,7 +96,7 @@ public class PlaceServiceTests {
 	}
 	
 	@Test
-	public void testCreatePlace() throws IOException {
+	void testCreatePlace() throws IOException {
 		
 		Place createdPlace = 
 				service.createPlace(
@@ -116,7 +116,7 @@ public class PlaceServiceTests {
 	}
 	
 	@Test
-	public void testReadPlace() throws IOException {
+	void testReadPlace() throws IOException {
 		
 		Place responsePlace = service.getPlace(PlaceTestData.READ_PLACE_ID);
 		
@@ -139,7 +139,7 @@ public class PlaceServiceTests {
 	}
 	
 	@Test
-	public void testUpdateClass() throws IOException {
+	void testUpdateClass() throws IOException {
 		
 		Place originalPlace = service.getPlace(PlaceTestData.READ_PLACE_ID);
 		
@@ -156,7 +156,7 @@ public class PlaceServiceTests {
 	}
 	
 	@Test
-	public void testUpdateHPAboveMAXHP() {
+	void testUpdateHPAboveMAXHP() {
 		
 		Place originalPlace = service.getPlace(PlaceTestData.READ_PLACE_ID);
 		
@@ -171,7 +171,7 @@ public class PlaceServiceTests {
 	}
 
 	@Test
-	public void testUpdateHPBelowZero() {
+	void testUpdateHPBelowZero() {
 		
 		Place originalPlace = service.getPlace(PlaceTestData.READ_PLACE_ID);
 		
@@ -184,7 +184,7 @@ public class PlaceServiceTests {
 	}
 
 	@Test
-	public void testUpdateAttributes() {
+	void testUpdateAttributes() {
 		
 		Place originalPlace = service.getPlace(PlaceTestData.READ_PLACE_ID);
 		
@@ -202,7 +202,7 @@ public class PlaceServiceTests {
 	}
 
 	@Test
-	public void testDeleteDemised() throws IOException {
+	void testDeleteDemised() throws IOException {
 		
 		// Prepare the expected entity to be persisted
 		PlaceEntity expectedDemisedPlace = PlaceTestData.loadMudPlace(PlaceServiceTests.DELETE_DEMISED_PLACE_ID);
@@ -215,7 +215,7 @@ public class PlaceServiceTests {
 	}
 	
 	@Test
-	public void testDelete() {
+	void testDelete() {
 		
 		service.destroyPlace(PlaceTestData.READ_PLACE_ID);
 		
